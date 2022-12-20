@@ -1,7 +1,13 @@
 <?php 
-    include('conexao.php');
+include('conexao.php');
 
-    $erro = false;
+if(!isset($_SESSION))
+    session_start();
+
+if(!isset($_SESSION['usuario']))
+    die('Você não está logado. <a href="sistema_login.php">Clique aqui</a> para logar.');
+
+$erro = false;
 if(count($_POST) > 1){
 
     $nome = $_POST['nome'];
@@ -62,6 +68,17 @@ if(count($_POST) > 1){
     <title>Cadastro - Lib Manager</title>
 </head>
 <body>
+<header>
+        <h1>Lib Manager</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Cadastrar Livro</a></li>
+                <li><a href="cadastrar_funcionario.php">Cadastrar Funcionário</a></li>
+                <li><a href="index.php">Pesquisar Livros</a></li>
+                <li><a href="sistema_logout.php">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
     <main>
         <section>
             <h2>Lib Manager - Formulário de Cadastro de Funcionário</h2>
