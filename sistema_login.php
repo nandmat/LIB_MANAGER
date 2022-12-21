@@ -29,9 +29,13 @@ if(isset($_POST['cpf'])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=form, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login - Lib Manager</title>
 </head>
 <body>
+    <header>
+        <h1>Login - Lib Manager</h1>
+    </header>
+    <main>
     <form action="" method="post">
         <h1>Entre com seu usuário e senha:</h1>
         <p>
@@ -44,5 +48,6 @@ if(isset($_POST['cpf'])){
         </p>
         <button type="submit">Logar</button>
     </form>
+    </main>
 </body>
 </html>

@@ -5,7 +5,7 @@ if(!isset($_SESSION))
     session_start();
 
 if(!isset($_SESSION['usuario']))
-    die('Você não está logado. <a href="sistema_login.php">Clique aqui</a> para logar.');
+    die(header("Location: redirecionar_login.php"));
 
 $erro = false;
 if(count($_POST) > 1){
@@ -23,8 +23,8 @@ if(count($_POST) > 1){
     if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)){
         $erro = "Preencha o campo Email";
     }
-    if(empty($cpf) || strlen($cpf) < 14){
-        $erro = "Preencha o campo CPF corretamente";
+    if(empty($cpf) || strlen($cpf) < 14 || !validarCpf($cpf)){
+        $erro = "CPF Inválido. Tente novamente!";
     }
     if(empty($senha)) {
         $erro = "Preencha o campo SENHA corretamente";
