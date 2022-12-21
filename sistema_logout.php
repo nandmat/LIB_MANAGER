@@ -5,6 +5,6 @@ if(!isset($_SESSION))
 
 session_destroy();
 
-header("Location: sistema_login.php");
+header("Location: redirecionar_login.php");
 
 ?>
