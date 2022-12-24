@@ -72,9 +72,9 @@ if(count($_POST) > 1){
         <h1>Lib Manager</h1>
         <nav>
             <ul>
-                <li><a href="#">Cadastrar Livro</a></li>
+                <li><a href="cadastrar_livros.php">Cadastrar Livro</a></li>
                 <li><a href="cadastrar_funcionario.php">Cadastrar Funcionário</a></li>
-                <li><a href="index.php">Pesquisar Livros</a></li>
+                <li><a href="home.php">Pesquisar Livros</a></li>
                 <li><a href="sistema_logout.php">Sair</a></li>
             </ul>
         </nav>
