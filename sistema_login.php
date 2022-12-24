@@ -14,7 +14,7 @@ if(isset($_POST['cpf'])){
         if(!isset($_SESSION))
             session_start();
         $_SESSION['usuario'] = $usuario['id_usuario'];
-        header("Location: index.php");
+        header("Location: home.php");
     } else {
         echo 'falha ao logar, usuário ou senha incorretos';
     }
