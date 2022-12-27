@@ -8,6 +8,10 @@ if(!isset($_SESSION))
 if(!isset($_SESSION['usuario']))
     die('Você não está logado. <a href="sistema_login.php">Clique aqui</a> para logar.');
 
+if(isset($_GET['busca'])){
+    $busca = $_GET['busca'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +34,83 @@ if(!isset($_SESSION['usuario']))
             </ul>
         </nav>
     </header>
-    <h1>aqui</h1>
+    <main>
+        <h4>Sistema de Busca</h4>
+        <form action="" method="get">
+            <p>
+                Digite o nome do livro:
+            </p>
+            <input type="text" name="busca">
+            <button type="submit">Buscar</button>
+        </form>
+        <section class="central">
+            <div class="livro">
+                    <?php 
+                         if(empty($busca)) {
+                            $sql_code = $mysqli->query(
+                            "SELECT 
+                            titulo,
+                            edicao,
+                            isbn,
+                            assunto,
+                            path,
+                            CONCAT(a.nome_autor, ' ', a.sobrenome_autor) as nome_autor,
+                            e.nome_editora as nome_editora
+                            FROM tbl_livro as l
+                            INNER JOIN tbl_autor a
+                            ON l.id_autor = a.id_autor
+                            INNER JOIN tbl_editora e
+                            ON l.id_editora = e.id_editora
+                            ORDER BY l.id_livro ASC;");
+                            while($sql_query = $sql_code->fetch_assoc()){
+                            
+                                ?>
+                                <ul style="list-style-type: none;">
+                                    <li><img src="<?php echo $sql_query['path'] ?>" alt="" height="150px"></li>
+                                    <li><?php echo $sql_query['titulo']?></li>
+                                    <li><?php echo $sql_query['nome_autor'] ?></li>
+                                    <li><?php echo $sql_query['nome_editora'] ?></li>
+                                    <li><?php echo $sql_query['assunto'] ?></li>
+                                    <li><?php echo $sql_query['isbn'] ?></li>
+                                </ul>
+                            <?php
+                            }
+                        } else {
+                            $sql_code = $mysqli->query(
+                                "SELECT 
+                                titulo,
+                                edicao,
+                                isbn,
+                                assunto,
+                                path,
+                                a.nome_autor as nome_autor,
+                                CONCAT(a.nome_autor, ' ', a.sobrenome_autor) as nome_autor,
+                                e.nome_editora as nome_editora
+                                FROM tbl_livro as l
+                                INNER JOIN tbl_autor a
+                                ON l.id_autor = a.id_autor
+                                INNER JOIN tbl_editora e
+                                ON l.id_editora = e.id_editora
+                                WHERE titulo LIKE '%$busca%' OR isbn LIKE '$$busca$' OR assunto LIKE '%$busca%' OR nome_autor LIKE '%$busca%'
+                                ORDER BY l.id_livro ASC;");
+
+while($sql_query = $sql_code->fetch_assoc()){
+                            
+    ?>
+    <ul style="list-style-type: none;">
+        <li><img src="<?php echo $sql_query['path'] ?>" alt="" height="150px"></li>
+        <li><?php echo $sql_query['titulo']?></li>
+        <li><?php echo $sql_query['nome_autor'] ?></li>
+        <li><?php echo $sql_query['nome_editora'] ?></li>
+        <li><?php echo $sql_query['assunto'] ?></li>
+        <li><?php echo $sql_query['isbn'] ?></li>
+    </ul>
+<?php
+}
+                        }
+                    ?>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
