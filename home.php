@@ -127,9 +127,8 @@ if (isset($_GET['busca'])) {
                             <li><?php echo $sql_query['assunto'] ?></li>
                             <li><?php echo $sql_query['isbn'] ?></li>
                         </ul>
-                        <ul class="menu_edit">
-                            <li><a href="./editar_livro.php">Editar</a></li>
-                            <li><a href="./deletar_livro.php">Deletar</a></li>
+                        <ul>
+                            <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
                         </ul>
                 <?php
                     }
