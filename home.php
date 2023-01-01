@@ -28,7 +28,7 @@ if (isset($_GET['busca'])) {
 <body>
     <header class="header-class">
         <div class="caixa-logo">
-        <img src="./assets/img/logo.png" alt="logolibmanager" class="logo">
+            <img src="./assets/img/logo.png" alt="logolibmanager" class="logo">
         </div>
         <nav>
             <ul class="list-menu">
@@ -52,6 +52,7 @@ if (isset($_GET['busca'])) {
                 if (empty($busca)) {
                     $sql_code = $mysqli->query(
                         "SELECT 
+                            id_livro,
                             titulo,
                             edicao,
                             isbn,
@@ -72,11 +73,24 @@ if (isset($_GET['busca'])) {
                         <div class="livro-div-list">
                             <ul style="list-style-type: none;">
                                 <li><img src="<?php echo $sql_query['path'] ?>" alt="" height="150px"></li>
-                                <li><p class="title-list-livro">Livro: <?php echo $sql_query['titulo'] ?></p></li>
-                                <li><p class="title-list-livro">Autor: <?php echo $sql_query['nome_autor'] ?></p></li>
-                                <li><p class="title-list-livro">Editora: <?php echo $sql_query['nome_editora'] ?></p></li>
-                                <li><p class="title-list-livro">Gênero: <?php echo $sql_query['assunto'] ?></p></li>
-                                <li><p class="title-list-livro">ISBN: <?php echo $sql_query['isbn'] ?></p></li>
+                                <li>
+                                    <p class="title-list-livro">Livro: <?php echo $sql_query['titulo'] ?></p>
+                                </li>
+                                <li>
+                                    <p class="title-list-livro">Autor: <?php echo $sql_query['nome_autor'] ?></p>
+                                </li>
+                                <li>
+                                    <p class="title-list-livro">Editora: <?php echo $sql_query['nome_editora'] ?></p>
+                                </li>
+                                <li>
+                                    <p class="title-list-livro">Gênero: <?php echo $sql_query['assunto'] ?></p>
+                                </li>
+                                <li>
+                                    <p class="title-list-livro">ISBN: <?php echo $sql_query['isbn'] ?></p>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
                             </ul>
                         </div>
                     <?php
@@ -84,6 +98,7 @@ if (isset($_GET['busca'])) {
                 } else {
                     $sql_code = $mysqli->query(
                         "SELECT 
+                                id_livro,
                                 titulo,
                                 edicao,
                                 isbn,
@@ -111,6 +126,10 @@ if (isset($_GET['busca'])) {
                             <li><?php echo $sql_query['nome_editora'] ?></li>
                             <li><?php echo $sql_query['assunto'] ?></li>
                             <li><?php echo $sql_query['isbn'] ?></li>
+                        </ul>
+                        <ul class="menu_edit">
+                            <li><a href="./editar_livro.php">Editar</a></li>
+                            <li><a href="./deletar_livro.php">Deletar</a></li>
                         </ul>
                 <?php
                     }
