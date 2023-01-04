@@ -21,24 +21,37 @@ if (isset($_GET['busca'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/home.css">
     <title>Principal - Lib Manager</title>
 </head>
 
 <body>
-    <header class="header-class">
-        <div class="caixa-logo">
-            <img src="./assets/img/logo.png" alt="logolibmanager" class="logo">
-        </div>
-        <nav>
+    <!-- Header -->
+    <header class="header">
+        <img class="logo" src="./assets/img/logo.png" alt="logolibmanager">
+        <nav class="container-menu">
             <ul class="list-menu">
-                <li><a href="cadastrar_livros.php">Cadastrar Livro</a></li>
-                <li><a href="cadastrar_funcionario.php">Cadastrar Funcionário</a></li>
-                <li><a href="index.php">Pesquisar Livros</a></li>
-                <li><a href="sistema_logout.php">Sair</a></li>
+                <a class="link" href="home.php">
+                    <li>Home</li>
+                </a>
+                <a class="link" href="cadastrar_livros.php">
+                    <li>Cadastrar Livro</li>
+                </a>
+                <a class="link" href="cadastrar_funcionario.php">
+                    <li>Cadastrar Funcionário</li>
+                </a>
+                <a class="link" href="index.php">
+                    <li>Pesquisar Livros</li>
+                </a>
+                <a class="link" href="sistema_logout.php">
+                    <li>Sair</li>
+                </a>
             </ul>
         </nav>
     </header>
+
+
+
     <main>
         <h4>Sistema de Busca</h4>
         <form action="" method="get">
