@@ -1,14 +1,14 @@
-<?php 
+<?php
 include('conexao.php');
 
-if(!isset($_SESSION))
+if (!isset($_SESSION))
     session_start();
 
-if(!isset($_SESSION['usuario']))
+if (!isset($_SESSION['usuario']))
     die(header("Location: redirecionar_login.php"));
 
 $erro = false;
-if(count($_POST) > 1){
+if (count($_POST) > 1) {
 
     $nome = $_POST['nome'];
     $email = $_POST['email'];
@@ -17,43 +17,42 @@ if(count($_POST) > 1){
     $telefone = $_POST['telefone'];
     $endereco = $_POST['endereco'];
 
-    if(empty($nome)){
+    if (empty($nome)) {
         $erro = "Preencha o nome";
     }
-    if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)){
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $erro = "Preencha o campo Email";
     }
-    if(empty($cpf) || strlen($cpf) < 14 || !validarCpf($cpf)){
+    if (empty($cpf) || strlen($cpf) < 14 || !validarCpf($cpf)) {
         $erro = "CPF Inválido. Tente novamente!";
     }
-    if(empty($senha)) {
+    if (empty($senha)) {
         $erro = "Preencha o campo SENHA corretamente";
     } else {
         $senha = password_hash($senha, PASSWORD_DEFAULT);
     }
-    if(empty($telefone)){
+    if (empty($telefone)) {
         $telefone = limpar_texto($telefone);
-        if(strlen($telefone) !=11){
+        if (strlen($telefone) != 11) {
             $erro = "O telefone deve ser preenchido no padrão: (11) 98888-8888";
         }
     }
-    
-    if($erro){
+
+    if ($erro) {
         echo "<p><b>$erro</b></p>";
-    }else{
+    } else {
         $sql_code = "INSERT INTO tbl_usuario 
         (nome_usuario, email_usuario, cpf_usuario, senha_usuario, telefone_usuario, endereco_usuario) 
         VALUES ('$nome', '$email', '$cpf', '$senha', '$telefone', '$endereco');";
 
-        $query = $mysqli->query($sql_code) or die ($mysqli->error);
+        $query = $mysqli->query($sql_code) or die($mysqli->error);
 
-        if($query){
+        if ($query) {
             echo "<p><b>Cadastro realizado com sucesso!</b></p>";
             unset($_POST);
-        }else{
+        } else {
             echo "Erro!, Usuário não cadastrado!</b></p>";
         }
-        
     }
 }
 
@@ -61,24 +60,41 @@ if(count($_POST) > 1){
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/cadastroFuncionario.css">
     <title>Cadastro - Lib Manager</title>
 </head>
+
 <body>
-<header>
-        <h1>Lib Manager</h1>
-        <nav>
-            <ul>
-                <li><a href="cadastrar_livros.php">Cadastrar Livro</a></li>
-                <li><a href="cadastrar_funcionario.php">Cadastrar Funcionário</a></li>
-                <li><a href="home.php">Pesquisar Livros</a></li>
-                <li><a href="sistema_logout.php">Sair</a></li>
+    <!-- Header -->
+    <header class="header">
+        <img class="logo" src="./assets/img/logo.png" alt="logolibmanager">
+        <nav class="container-menu">
+            <ul class="list-menu">
+                <a class="link" href="home.php">
+                    <li>Home</li>
+                </a>
+                <a class="link" href="cadastrar_livros.php">
+                    <li>Cadastrar Livro</li>
+                </a>
+                <a class="link" href="cadastrar_funcionario.php">
+                    <li>Cadastrar Funcionário</li>
+                </a>
+                <a class="link" href="index.php">
+                    <li>Pesquisar Livros</li>
+                </a>
+                <a class="link" href="sistema_logout.php">
+                    <li>Sair</li>
+                </a>
             </ul>
         </nav>
     </header>
+
+    <!-- Corpo ( container) -->
     <main>
         <section>
             <h2>Lib Manager - Formulário de Cadastro de Funcionário</h2>
@@ -115,4 +131,5 @@ if(count($_POST) > 1){
         </section>
     </main>
 </body>
+
 </html>
