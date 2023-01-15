@@ -62,6 +62,7 @@ if (isset($_POST['cpf'])) {
         if (!isset($_SESSION))
             session_start();
         $_SESSION['usuario'] = $usuario['id_usuario'];
+        $_SESSION['perfil_acesso'] = $usuario['perfil'];
         header("Location: home.php");
     } else {
 

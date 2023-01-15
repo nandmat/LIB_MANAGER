@@ -1,19 +1,13 @@
 <?php
 include('conexao.php');
 
-if (!isset($_SESSION))
-    session_start();
-$perfil_acesso = $_SESSION['perfil_acesso'];
-
-if (!isset($_SESSION['usuario']) && $perfil_acesso = $_SESSION['perfil_acesso'])
-    die(header("Location: redirecionar_login.php"));
-
 $erro = false;
 if (count($_POST) > 1) {
 
     $nome = $_POST['nome'];
     $email = $_POST['email'];
     $cpf = $_POST['cpf'];
+    $matricula = $_POST['matricula'];
     $senha = $_POST['senha'];
     $telefone = $_POST['telefone'];
     $endereco = $_POST['endereco'];
@@ -26,6 +20,22 @@ if (count($_POST) > 1) {
     }
     if (empty($cpf) || strlen($cpf) < 14 || !validarCpf($cpf)) {
         $erro = "CPF Inválido. Tente novamente!";
+    }
+    $sqlQuery = false;
+    if (empty($matricula || strlen($matricula) > 25)) {
+        $erro = "Infomre uma matrícula válida!";
+    } else {
+        $sql_code = $mysqli->query(
+            "SELECT matricula FROM tbl_matriculas WHERE matricula = '$matricula' LIMIT 1"
+        )
+            or die($mysqli->error);
+
+        $sqlQuery = $sql_code->fetch_assoc();
+        if (!empty($sqlQuery['matricula'])) {
+            $matricula = $sqlQuery['matricula'];
+        } else {
+            $erro = "Número de matrícula inválido!";
+        }
     }
     if (empty($senha)) {
         $erro = "Preencha o campo SENHA corretamente";
@@ -44,17 +54,15 @@ if (count($_POST) > 1) {
     } else {
         $sql_code = "INSERT INTO tbl_usuario 
         (nome_usuario, email_usuario, cpf_usuario, senha_usuario, telefone_usuario, endereco_usuario, perfil) 
-        VALUES ('$nome', '$email', '$cpf', '$senha', '$telefone', '$endereco', 1);";
+        VALUES ('$nome', '$email', '$cpf', '$senha', '$telefone', '$endereco', 0);";
 
         $query = $mysqli->query($sql_code) or die($mysqli->error);
 
         if ($query) {
-
-            $sqlFuncionario = $mysqli->query(
-                "INSERT INTO tbl_funcionario (nome_funcionario, cpf, data_cadastro)
-                VALUES('$nome', '$cpf', NOW())");
-                
             echo "<p><b>Cadastro realizado com sucesso!</b></p>";
+
+            $inserirAluno = $mysqli->query("INSERT INTO tbl_aluno (nome, cpf, matricula, email, data_cadastro)
+            VALUES ('$nome', '$cpf', '$matricula', '$email', NOW())");
             unset($_POST);
         } else {
             echo "Erro!, Usuário não cadastrado!</b></p>";
@@ -81,22 +89,8 @@ if (count($_POST) > 1) {
         <img class="logo" src="./assets/img/logo.png" alt="logolibmanager">
         <nav class="container-menu">
             <ul class="list-menu">
-                <a class="link" href="home.php">
-                    <li>Home</li>
-                </a>
-                <?php if ($perfil_acesso == 1) : ?>
-                    <a class="link" href="cadastrar_livros.php">
-                        <li>Cadastrar Livro</li>
-                    </a>
-                    <a class="link" href="cadastrar_funcionario.php">
-                        <li>Cadastrar Funcionário</li>
-                    </a>
-                <?php endif ?>
                 <a class="link" href="index.php">
-                    <li>Pesquisar Livros</li>
-                </a>
-                <a class="link" href="sistema_logout.php">
-                    <li>Sair</li>
+                    <li>Voltar a página inicial</li>
                 </a>
             </ul>
         </nav>
@@ -105,7 +99,7 @@ if (count($_POST) > 1) {
     <!-- Corpo ( container) -->
     <main>
         <section>
-            <h2>Lib Manager - Formulário de Cadastro de Funcionário</h2>
+            <h2>Lib Manager - Formulário de Cadastro de Aluno</h2>
             <p>
                 Informe seus dados cadastrais:
             </p>
@@ -121,6 +115,10 @@ if (count($_POST) > 1) {
                 <p>
                     <label for="">CPF: </label>
                     <input type="text" name="cpf" placeholder="000.000.000-00">
+                </p>
+                <p>
+                    <label for="">Matrícula: </label>
+                    <input type="text" name="matricula" placeholder="202301">
                 </p>
                 <p>
                     <label for="">Senha: </label>

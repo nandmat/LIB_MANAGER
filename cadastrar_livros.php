@@ -116,12 +116,14 @@ if (isset($_POST['enviar'])) {
                 <a class="link" href="home.php">
                     <li>Home</li>
                 </a>
-                <a class="link" href="cadastrar_livros.php">
-                    <li>Cadastrar Livro</li>
-                </a>
-                <a class="link" href="cadastrar_funcionario.php">
-                    <li>Cadastrar Funcionário</li>
-                </a>
+                <?php if ($perfil_acesso == 1) : ?>
+                    <a class="link" href="cadastrar_livros.php">
+                        <li>Cadastrar Livro</li>
+                    </a>
+                    <a class="link" href="cadastrar_funcionario.php">
+                        <li>Cadastrar Funcionário</li>
+                    </a>
+                <?php endif ?>
                 <a class="link" href="index.php">
                     <li>Pesquisar Livros</li>
                 </a>

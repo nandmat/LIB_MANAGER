@@ -4,6 +4,8 @@ include('conexao.php');
 
 if (!isset($_SESSION))
     session_start();
+$perfil_acesso = $_SESSION['perfil_acesso'];
+
 
 if (!isset($_SESSION['usuario']))
     die('Você não está logado. <a href="sistema_login.php">Clique aqui</a> para logar.');
@@ -34,12 +36,14 @@ if (isset($_GET['busca'])) {
                 <a class="link" href="home.php">
                     <li>Home</li>
                 </a>
-                <a class="link" href="cadastrar_livros.php">
-                    <li>Cadastrar Livro</li>
-                </a>
-                <a class="link" href="cadastrar_funcionario.php">
-                    <li>Cadastrar Funcionário</li>
-                </a>
+                <?php if ($perfil_acesso == 1) : ?>
+                    <a class="link" href="cadastrar_livros.php">
+                        <li>Cadastrar Livro</li>
+                    </a>
+                    <a class="link" href="cadastrar_funcionario.php">
+                        <li>Cadastrar Funcionário</li>
+                    </a>
+                <?php endif ?>
                 <a class="link" href="index.php">
                     <li>Pesquisar Livros</li>
                 </a>
@@ -102,9 +106,11 @@ if (isset($_GET['busca'])) {
                                     <p class="title-list-livro">ISBN: <?php echo $sql_query['isbn'] ?></p>
                                 </li>
                             </ul>
-                            <ul>
-                                <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
-                            </ul>
+                            <?php if ($perfil_acesso == 1) : ?>
+                                <ul>
+                                    <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
+                                </ul>
+                            <?php endif ?>
                         </div>
                     <?php
                     }
