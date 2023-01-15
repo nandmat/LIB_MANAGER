@@ -124,7 +124,7 @@ if (isset($_POST['enviar'])) {
                         <li>Cadastrar Funcionário</li>
                     </a>
                 <?php endif ?>
-                <a class="link" href="index.php">
+                <a class="link" href="home.php">
                     <li>Pesquisar Livros</li>
                 </a>
                 <a class="link" href="sistema_logout.php">
