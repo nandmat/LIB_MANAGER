@@ -53,7 +53,7 @@ if (count($_POST) > 1) {
             $sqlFuncionario = $mysqli->query(
                 "INSERT INTO tbl_funcionario (nome_funcionario, cpf, data_cadastro)
                 VALUES('$nome', '$cpf', NOW())");
-                
+
             echo "<p><b>Cadastro realizado com sucesso!</b></p>";
             unset($_POST);
         } else {
@@ -92,7 +92,7 @@ if (count($_POST) > 1) {
                         <li>Cadastrar Funcionário</li>
                     </a>
                 <?php endif ?>
-                <a class="link" href="index.php">
+                <a class="link" href="home.php">
                     <li>Pesquisar Livros</li>
                 </a>
                 <a class="link" href="sistema_logout.php">
