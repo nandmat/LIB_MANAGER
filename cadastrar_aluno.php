@@ -25,50 +25,58 @@ if (count($_POST) > 1) {
     if (empty($matricula || strlen($matricula) > 25)) {
         $erro = "Infomre uma matrícula válida!";
     } else {
-        $sql_code = $mysqli->query(
-            "SELECT matricula FROM tbl_matriculas WHERE matricula = '$matricula' LIMIT 1"
-        )
-            or die($mysqli->error);
-
+        $sql_code = $mysqli->query("SELECT matricula FROM tbl_aluno WHERE matricula = '$matricula' LIMIT 1");
         $sqlQuery = $sql_code->fetch_assoc();
+
         if (!empty($sqlQuery['matricula'])) {
-            $matricula = $sqlQuery['matricula'];
+            $erro = "Essa matrícula já está vinculada a um aluno registrado no sistema!";
         } else {
-            $erro = "Número de matrícula inválido!";
-        }
-    }
-    if (empty($senha)) {
-        $erro = "Preencha o campo SENHA corretamente";
-    } else {
-        $senha = password_hash($senha, PASSWORD_DEFAULT);
-    }
-    if (empty($telefone)) {
-        $telefone = limpar_texto($telefone);
-        if (strlen($telefone) != 11) {
-            $erro = "O telefone deve ser preenchido no padrão: (11) 98888-8888";
-        }
-    }
+            $sql_code = $mysqli->query(
+                "SELECT matricula FROM tbl_matriculas WHERE matricula = '$matricula' LIMIT 1"
+            )
+                or die($mysqli->error);
 
-    if ($erro) {
-        echo "<p><b>$erro</b></p>";
-    } else {
-        $sql_code = "INSERT INTO tbl_usuario 
-        (nome_usuario, email_usuario, cpf_usuario, senha_usuario, telefone_usuario, endereco_usuario, perfil) 
-        VALUES ('$nome', '$email', '$cpf', '$senha', '$telefone', '$endereco', 0);";
-
-        $query = $mysqli->query($sql_code) or die($mysqli->error);
-
-        if ($query) {
-            echo "<p><b>Cadastro realizado com sucesso!</b></p>";
-
-            $inserirAluno = $mysqli->query("INSERT INTO tbl_aluno (nome, cpf, matricula, email, data_cadastro)
-            VALUES ('$nome', '$cpf', '$matricula', '$email', NOW())");
-            unset($_POST);
-        } else {
-            echo "Erro!, Usuário não cadastrado!</b></p>";
+            $sqlQuery = $sql_code->fetch_assoc();
+            if (!empty($sqlQuery['matricula'])) {
+                $matricula = $sqlQuery['matricula'];
+            } else {
+                $erro = "Número de matrícula inválido!";
+            }
         }
     }
 }
+if (empty($senha)) {
+    $erro = "Preencha o campo SENHA corretamente";
+} else {
+    $senha = password_hash($senha, PASSWORD_DEFAULT);
+}
+if (empty($telefone)) {
+    $telefone = limpar_texto($telefone);
+    if (strlen($telefone) != 11) {
+        $erro = "O telefone deve ser preenchido no padrão: (11) 98888-8888";
+    }
+}
+
+if ($erro) {
+    echo "<p><b>$erro</b></p>";
+} else {
+    $sql_code = "INSERT INTO tbl_usuario 
+        (nome_usuario, email_usuario, cpf_usuario, senha_usuario, telefone_usuario, endereco_usuario, perfil) 
+        VALUES ('$nome', '$email', '$cpf', '$senha', '$telefone', '$endereco', 0);";
+
+    $query = $mysqli->query($sql_code) or die($mysqli->error);
+
+    if ($query) {
+        echo "<p><b>Cadastro realizado com sucesso!</b></p>";
+
+        $inserirAluno = $mysqli->query("INSERT INTO tbl_aluno (nome, cpf, matricula, email, data_cadastro)
+            VALUES ('$nome', '$cpf', '$matricula', '$email', NOW())");
+        unset($_POST);
+    } else {
+        echo "Erro!, Usuário não cadastrado!</b></p>";
+    }
+}
+
 
 ?>
 
