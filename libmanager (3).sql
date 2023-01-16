@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 01-Jan-2023 às 19:16
+-- Tempo de geração: 16-Jan-2023 às 02:29
 -- Versão do servidor: 5.7.36
 -- versão do PHP: 7.4.26
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `libmanager`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_aluno`
+--
+
+DROP TABLE IF EXISTS `tbl_aluno`;
+CREATE TABLE IF NOT EXISTS `tbl_aluno` (
+  `id_aluno` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `cpf` varchar(14) NOT NULL,
+  `matricula` varchar(255) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `data_cadastro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_aluno`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `tbl_aluno`
+--
+
+INSERT INTO `tbl_aluno` (`id_aluno`, `nome`, `cpf`, `matricula`, `email`, `data_cadastro`) VALUES
+(3, 'aluno', '995.111.960-30', '202303', 'aluno@gmail.com', '2023-01-15 23:19:28');
 
 -- --------------------------------------------------------
 
@@ -83,15 +107,17 @@ DROP TABLE IF EXISTS `tbl_funcionario`;
 CREATE TABLE IF NOT EXISTS `tbl_funcionario` (
   `id_funcionario` int(11) NOT NULL AUTO_INCREMENT,
   `nome_funcionario` varchar(20) NOT NULL,
+  `cpf` varchar(14) NOT NULL,
+  `data_cadastro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_funcionario`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `tbl_funcionario`
 --
 
-INSERT INTO `tbl_funcionario` (`id_funcionario`, `nome_funcionario`) VALUES
-(1, 'Nanderson Pinto');
+INSERT INTO `tbl_funcionario` (`id_funcionario`, `nome_funcionario`, `cpf`, `data_cadastro`) VALUES
+(2, 'Flavio do Pneu', '878.239.330-39', '2023-01-15 19:21:55');
 
 -- --------------------------------------------------------
 
@@ -121,11 +147,54 @@ CREATE TABLE IF NOT EXISTS `tbl_livro` (
 
 INSERT INTO `tbl_livro` (`id_livro`, `titulo`, `edicao`, `isbn`, `assunto`, `situacao`, `id_autor`, `id_editora`, `path`) VALUES
 (11, 'Vinte mil lÃ©guas submarinas', '1', '8594318774', 'Aventura', 1, 35, 52, 'capas/63ab776ee6ec0.jpg'),
-(9, 'A volta ao mundo em 80 dias', '1', '978-8594318145', 'Aventura', 1, 39, 52, 'capas/63b1d5f0a4d10.jpg'),
+(9, 'A volta ao mundo em 80 dias', '1', '978-8594318145', 'Aventura', 1, 39, 52, 'capas/63b367e1ea425.jpg'),
 (12, 'Da Terra Ã  Lua', '1', '6555521732', 'Aventura', 1, 35, 52, 'capas/63ab77a2434fb.jpg'),
 (13, 'GovernanÃ§a de TI - Tecnologia da InformaÃ§Ã£o', '1', '8589384780', 'TI', 1, 37, 54, 'capas/63b1d6126e1d3.jpg'),
 (14, 'O CÃ³digo Da Vinci (Robert Langdon - Livro 2) ', '1', '978-6555651041', 'Suspense', 1, 38, 55, 'capas/63ab7be2efc9f.jpg'),
 (15, 'NÃ£o me faÃ§a pensar: atualizado', 'EdiÃ§Ã£o atualizada', '978-8576088509', 'TI', 1, 40, 56, 'capas/63b1d81c04b24.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_matriculas`
+--
+
+DROP TABLE IF EXISTS `tbl_matriculas`;
+CREATE TABLE IF NOT EXISTS `tbl_matriculas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `matricula` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2023203 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `tbl_matriculas`
+--
+
+INSERT INTO `tbl_matriculas` (`id`, `matricula`) VALUES
+(1, '202301'),
+(2, '202302'),
+(3, '202303');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_perfil`
+--
+
+DROP TABLE IF EXISTS `tbl_perfil`;
+CREATE TABLE IF NOT EXISTS `tbl_perfil` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `perfil` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `tbl_perfil`
+--
+
+INSERT INTO `tbl_perfil` (`id`, `perfil`) VALUES
+(1, 'funcionario'),
+(2, 'aluno');
 
 -- --------------------------------------------------------
 
@@ -142,16 +211,19 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
   `senha_usuario` varchar(255) NOT NULL,
   `telefone_usuario` varchar(15) NOT NULL,
   `endereco_usuario` varchar(50) DEFAULT NULL,
+  `perfil` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `cpf_usuario` (`cpf_usuario`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `tbl_usuario`
 --
 
-INSERT INTO `tbl_usuario` (`id_usuario`, `nome_usuario`, `email_usuario`, `cpf_usuario`, `senha_usuario`, `telefone_usuario`, `endereco_usuario`) VALUES
-(32, 'Nanderson Matheus', 'nandersonmatheusmelo@gmail.com', '555.666.777-89', '$2y$10$mbanbCu/02MtQIIPneQfoe2Fbv097nXRX4otUlIZ7aZrfvAzT9NcS', '(99) 98118-9635', 'aaaaaaaaaaaaaaaaa');
+INSERT INTO `tbl_usuario` (`id_usuario`, `nome_usuario`, `email_usuario`, `cpf_usuario`, `senha_usuario`, `telefone_usuario`, `endereco_usuario`, `perfil`) VALUES
+(32, 'Nanderson Matheus', 'nandersonmatheusmelo@gmail.com', '555.666.777-89', '$2y$10$mbanbCu/02MtQIIPneQfoe2Fbv097nXRX4otUlIZ7aZrfvAzT9NcS', '(99) 98118-9635', 'aaaaaaaaaaaaaaaaa', 1),
+(36, 'aluno', 'aluno@gmail.com', '995.111.960-30', '$2y$10$AvUdyF6quMSxVvjU7IXLleQfBxG3by6tF8hkrrkERC1XTzbfruzhm', '(99) 98118-9635', '111111111111', 0),
+(35, 'Flavio do Pneu', 'flaviopneu@gmail.com', '878.239.330-39', '$2y$10$Ao.7631Vg4taoiSdCo82f.8Vr6WUbaegMUfMDSsF85FZAK7.JSJA.', '(99) 98118-9635', 'Rua do carai', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
