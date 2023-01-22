@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-Br">
 
 <head>
     <meta charset="UTF-8">
@@ -29,7 +29,7 @@
     <main class="container">
         <form class="container-formulario" action="" method="post">
             <h1 class="titulo">Lib Manager</h1>
-            <h2 class="sub-titulo">REGISTRAR</h2>
+            <h2 class="sub-titulo">ALUNO</h2>
 
             <div class="container-cpfMatricula">
                 <!-- CPF -->
@@ -38,22 +38,22 @@
                 </div>
                 <!-- Matricula-->
                 <div class="container_input">
-                    <input id="txtMatricula" type="number" name="matricula" placeholder="Matricula">
+                    <input type="number" name="matricula" placeholder="Matricula">
                 </div>
             </div>
             <!-- Nome -->
             <div class="container_input">
-                <input id="txtNome" type="text" name="nome" placeholder="Digite seu nome">
+                <input type="text" name="nome" placeholder="Digite seu nome">
             </div>
             <!-- Email -->
 
             <div class="container_input">
-                <input id="txtEmail" type="text" name="email" placeholder="seueamail@dominio.com">
+                <input type="text" name="email" placeholder="seueamail@dominio.com">
             </div>
             <div class="container-foneSenha">
                 <!-- FONE -->
                 <div class="container_input">
-                    <input id="txtfone" oninput="mascaraFone(this)" type="fone" name="telefone" placeholder="DDD + NÚMERO">
+                    <input oninput="mascaraFone(this)" type="fone" name="telefone" placeholder="DDD + NÚMERO">
                 </div>
                 <!-- SENHA-->
                 <div class="container_input">
@@ -165,22 +165,18 @@ if (empty($senha)) {
 }
 if (empty($telefone)) {
     $telefone = limpar_texto($telefone);
-    if (strlen($telefone) != 11) {
+    if (strlen($telefone) != 15) {
     ?>
         <script type="text/javascript">
             $.notify("O telefone deve ser preenchido no padrão: (11) 98888-8888", "warn");
         </script>
     <?php
-        //$erro = "O telefone deve ser preenchido no padrão: (11) 98888-8888";
+        //$erro = "O telefone deve ser preenchido no padrão: (11) 98888-8888333";
     }
 }
 
 if ($erro) {
-    ?>
-    <script type="text/javascript">
-        $.notify("Número de matrícula inválido!", "error");
-    </script>
-    <?php
+
     //echo "<p><b>$erro</b></p>";
 } else {
     $sql_code = "INSERT INTO tbl_usuario 
