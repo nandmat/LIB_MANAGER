@@ -192,7 +192,7 @@ if ($erro) {
         </script>
     <?php
         //echo "<p><b>Cadastro realizado com sucesso!</b></p>";
-
+        unset($_POST);
         $inserirAluno = $mysqli->query("INSERT INTO tbl_aluno (nome, cpf, matricula, email, data_cadastro)
             VALUES ('$nome', '$cpf', '$matricula', '$email', NOW())");
         unset($_POST);
