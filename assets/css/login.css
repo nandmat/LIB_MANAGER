@@ -67,15 +67,23 @@
 
 .salvar_senha {
   width: 85%;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: #000000;
   margin: 0.8rem 0 3rem 0;
   vertical-align: middle;
+  list-style-type: none;
+  text-decoration: none;
 }
 .salvar_senha input {
   margin: 0 0.5rem 0 0;
   vertical-align: middle;
   background: #1165bb;
+}
+.register{
+  width: 100%;
+  height: auto;
+  padding-left: 2rem;
+  
 }
 
 .btn-entrar {
@@ -84,7 +92,7 @@
   background: #1165bb;
   border: 1px solid #004892;
   border-radius: 4px;
-  margin: 0 0 1rem 0;
+  margin: 1rem 0;
   font-size: 1rem;
   font-weight: bold;
   color: #f3f3f3;
