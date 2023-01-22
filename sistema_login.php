@@ -18,17 +18,20 @@
             <h2 class="sub-titulo">Login</h2>
 
             <div class="container_input">
-                <input id="txtCpf" oninput="mascaraCPF(this)" type="text" name="cpf">
+                <input id="txtCpf" oninput="mascaraCPF(this)" type="text" name="cpf" placeholder="CPF">
             </div>
             <div class="container_input">
-                <input id="password" type="password" name="senha">
+                <input id="password" type="password" name="senha" placeholder="Password">
                 <i id="olho" class="fa-solid fa-eye olho"></i>
             </div>
-            <label class="salvar_senha">
-                <input type="checkbox" />
-                Me mantenha conectado
-            </label>
+
             <button class="btn-entrar" type="submit">Logar</button>
+
+            <div class="register">
+                <label class="salvar_senha">Não possui uma conta?</label><br>
+                <label class="salvar_senha">Registre-se </label><a class="salvar_senha" href="cadastrar_aluno.php">aqui</a>
+            </div>
+
         </form>
     </main>
 
