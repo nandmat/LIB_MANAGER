@@ -95,6 +95,8 @@ if (count($_POST) > 1) {
     $telefone = $_POST['telefone'];
     $endereco = $_POST['endereco'];
 
+    unset($_POST);
+
     if (empty($nome)) {
 ?>
         <script type="text/javascript">
@@ -179,11 +181,13 @@ if ($erro) {
 
     //echo "<p><b>$erro</b></p>";
 } else {
-    $sql_code = "INSERT INTO tbl_usuario 
+    if (!empty($nome) && !empty($email) && !empty($senha) && !empty($cpf) && !empty($telefone) && !empty($endereco) && !empty($matricula)) {
+        $sql_code = "INSERT INTO tbl_usuario 
         (nome_usuario, email_usuario, cpf_usuario, senha_usuario, telefone_usuario, endereco_usuario, perfil) 
         VALUES ('$nome', '$email', '$cpf', '$senha', '$telefone', '$endereco', 0);";
 
     $query = $mysqli->query($sql_code) or die($mysqli->error);
+    }    
 
     if ($query) {
     ?>
