@@ -25,6 +25,91 @@ if (isset($_GET['busca'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/home.css">
     <title>Principal - Lib Manager</title>
+    <style>
+        .cards {
+            width: 100vw;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .card {
+            margin: 40px;
+            position: relative;
+            max-width: 250px;
+            max-height: 350px;
+            box-shadow: 0 40px 60px -6px black;
+        }
+
+        .card-title {
+            display: block;
+            text-align: center;
+            color: #fff;
+            background-color: #6184a8;
+            padding: 2%;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 98%;
+            object-fit: cover;
+            display: block;
+            position: relative;
+        }
+
+        .card-desc {
+            width: 100%;
+            display: block;
+            font-size: 1.2rem;
+            position: absolute;
+            height: 0;
+            top: 0;
+            opacity: 0;
+            padding: 18px 8%;
+            background-color: white;
+            overflow-y: hidden;
+            transition: 0.8s ease;
+        }
+
+        .card:hover .card-desc {
+            opacity: 1;
+            height: 100%;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #fff;
+            margin: 40px 0 20px 0;
+            text-align: center;
+        }
+
+        .buttonClass {
+            text-decoration: none;
+            font-size: 1.3rem;
+            padding: .2rem 1rem;
+            margin-top: 20px;
+            width: 14rem;
+            height: 5rem;
+            border-width: .1rem;
+            color: #fff;
+            border-color: #d02718;
+            font-weight: bold;
+            border-top-left-radius: .6rem;
+            border-top-right-radius: .6rem;
+            border-bottom-left-radius: .6rem;
+            border-bottom-right-radius: .6rem;
+            box-shadow: inset 0px 1px 0px 0px #f5978e;
+            text-shadow: inset 0px 1px 0px #810e05;
+            background: linear-gradient(#f24537, #c62d1f);
+
+        }
+
+        .buttonClass:hover {
+            background: linear-gradient(#c62d1f, #f24537);
+        }
+    </style>
 </head>
 
 <body>
@@ -44,7 +129,7 @@ if (isset($_GET['busca'])) {
                         <li>Cadastrar Funcionário</li>
                     </a>
                 <?php endif ?>
-                <a class="link" href="index.php">
+                <a class="link" href="home.php">
                     <li>Pesquisar Livros</li>
                 </a>
                 <a class="link" href="sistema_logout.php">
@@ -63,12 +148,14 @@ if (isset($_GET['busca'])) {
             <input type="text" name="busca">
             <button type="submit">Buscar</button>
         </form>
-        <section class="central">
-            <div class="livro">
-                <?php
-                if (empty($busca)) {
-                    $sql_code = $mysqli->query(
-                        "SELECT 
+
+
+        <section class="cards">
+
+            <?php
+            if (empty($busca)) {
+                $sql_code = $mysqli->query(
+                    "SELECT 
                             id_livro,
                             titulo,
                             edicao,
@@ -83,40 +170,38 @@ if (isset($_GET['busca'])) {
                             INNER JOIN tbl_editora e
                             ON l.id_editora = e.id_editora
                             ORDER BY l.id_livro ASC;"
-                    );
-                    while ($sql_query = $sql_code->fetch_assoc()) {
+                );
+                while ($sql_query = $sql_code->fetch_assoc()) {
 
-                ?>
-                        <div class="livro-div-list">
-                            <ul style="list-style-type: none;">
-                                <li><img src="<?php echo $sql_query['path'] ?>" alt="" height="150px"></li>
-                                <li>
-                                    <p class="title-list-livro">Livro: <?php echo $sql_query['titulo'] ?></p>
-                                </li>
-                                <li>
-                                    <p class="title-list-livro">Autor: <?php echo $sql_query['nome_autor'] ?></p>
-                                </li>
-                                <li>
-                                    <p class="title-list-livro">Editora: <?php echo $sql_query['nome_editora'] ?></p>
-                                </li>
-                                <li>
-                                    <p class="title-list-livro">Gênero: <?php echo $sql_query['assunto'] ?></p>
-                                </li>
-                                <li>
-                                    <p class="title-list-livro">ISBN: <?php echo $sql_query['isbn'] ?></p>
-                                </li>
-                            </ul>
+            ?>
+                    <div class="card">
+                        <div>
+
+                            <h2 class="card-title"><?php echo $sql_query['titulo'] ?></h2>
+                        </div>
+                        <img src="<?php echo $sql_query['path'] ?>" alt="<?php echo $sql_query['titulo'] ?>" />
+
+                        <div class="card-desc">
+                            <p>Livro: <?php echo $sql_query['titulo'] ?></p>
+                            <p>Autor: <?php echo $sql_query['nome_autor'] ?></p>
+                            <p>Editora: <?php echo $sql_query['nome_editora'] ?></p>
+                            <p>Gênero: <?php echo $sql_query['assunto'] ?></p>
+                            <p>ISBN: <?php echo $sql_query['isbn'] ?></p>
+
                             <?php if ($perfil_acesso == 1) : ?>
-                                <ul>
-                                    <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
-                                </ul>
+
+                                <a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>" class="buttonClass">Editar</a>
+
                             <?php endif ?>
                         </div>
-                    <?php
-                    }
-                } else {
-                    $sql_code = $mysqli->query(
-                        "SELECT 
+
+
+                    </div>
+                <?php
+                }
+            } else {
+                $sql_code = $mysqli->query(
+                    "SELECT 
                                 id_livro,
                                 titulo,
                                 edicao,
@@ -133,27 +218,27 @@ if (isset($_GET['busca'])) {
                                 ON l.id_editora = e.id_editora
                                 WHERE titulo LIKE '%$busca%' OR isbn LIKE '$$busca$' OR assunto LIKE '%$busca%' OR nome_autor LIKE '%$busca%'
                                 ORDER BY l.id_livro ASC;"
-                    );
+                );
 
-                    while ($sql_query = $sql_code->fetch_assoc()) {
+                while ($sql_query = $sql_code->fetch_assoc()) {
 
-                    ?>
-                        <ul style="list-style-type: none;">
-                            <li><img src="<?php echo $sql_query['path'] ?>" alt="" height="150px"></li>
-                            <li><?php echo $sql_query['titulo'] ?></li>
-                            <li><?php echo $sql_query['nome_autor'] ?></li>
-                            <li><?php echo $sql_query['nome_editora'] ?></li>
-                            <li><?php echo $sql_query['assunto'] ?></li>
-                            <li><?php echo $sql_query['isbn'] ?></li>
-                        </ul>
-                        <ul>
-                            <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
-                        </ul>
-                <?php
-                    }
-                }
                 ?>
-            </div>
+                    <ul style="list-style-type: none;">
+                        <li><img src="<?php echo $sql_query['path'] ?>" alt="" height="150px"></li>
+                        <li><?php echo $sql_query['titulo'] ?></li>
+                        <li><?php echo $sql_query['nome_autor'] ?></li>
+                        <li><?php echo $sql_query['nome_editora'] ?></li>
+                        <li><?php echo $sql_query['assunto'] ?></li>
+                        <li><?php echo $sql_query['isbn'] ?></li>
+                    </ul>
+                    <ul>
+                        <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
+                    </ul>
+            <?php
+                }
+            }
+            ?>
+
         </section>
     </main>
 </body>
