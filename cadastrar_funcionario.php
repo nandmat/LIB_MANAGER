@@ -1,3 +1,15 @@
+<?php
+include('conexao.php');
+
+if (!isset($_SESSION))
+    session_start();
+$perfil_acesso = $_SESSION['perfil_acesso'];
+if($perfil_acesso == 0) {
+    die(header("Location: negar_acesso.php"));
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-Br">
 
@@ -14,28 +26,7 @@
 <body>
     <!-- Header -->
     <header class="header">
-        <img class="logo" src="./assets/img/logo.png" alt="logolibmanager">
-        <nav class="container-menu">
-            <ul class="list-menu">
-                <a class="link" href="home.php">
-                    <li>Home</li>
-                </a>
-                <?php if ($perfil_acesso == 1) : ?>
-                    <a class="link" href="cadastrar_livros.php">
-                        <li>Cadastrar Livro</li>
-                    </a>
-                    <a class="link" href="cadastrar_funcionario.php">
-                        <li>Cadastrar Funcionário</li>
-                    </a>
-                <?php endif ?>
-                <a class="link" href="home.php">
-                    <li>Pesquisar Livros</li>
-                </a>
-                <a class="link" href="sistema_logout.php">
-                    <li>Sair</li>
-                </a>
-            </ul>
-        </nav>
+        <?php include('./themes/nav.php'); ?>
     </header>
 
     <!-- Corpo ( container) -->
@@ -96,11 +87,6 @@
 </html>
 
 <?php
-include('conexao.php');
-
-if (!isset($_SESSION))
-    session_start();
-$perfil_acesso = $_SESSION['perfil_acesso'];
 
 if (!isset($_SESSION['usuario']) && $perfil_acesso = $_SESSION['perfil_acesso'])
     die(header("Location: redirecionar_login.php"));

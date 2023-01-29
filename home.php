@@ -115,28 +115,7 @@ if (isset($_GET['busca'])) {
 <body>
     <!-- Header -->
     <header class="header">
-        <img class="logo" src="./assets/img/logo.png" alt="logolibmanager">
-        <nav class="container-menu">
-            <ul class="list-menu">
-                <a class="link" href="home.php">
-                    <li>Home</li>
-                </a>
-                <?php if ($perfil_acesso == 1) : ?>
-                    <a class="link" href="cadastrar_livros.php">
-                        <li>Cadastrar Livro</li>
-                    </a>
-                    <a class="link" href="cadastrar_funcionario.php">
-                        <li>Cadastrar Funcionário</li>
-                    </a>
-                <?php endif ?>
-                <a class="link" href="home.php">
-                    <li>Pesquisar Livros</li>
-                </a>
-                <a class="link" href="sistema_logout.php">
-                    <li>Sair</li>
-                </a>
-            </ul>
-        </nav>
+        <?php include('./themes/nav.php'); ?>
     </header>
 
 
@@ -161,6 +140,7 @@ if (isset($_GET['busca'])) {
                             edicao,
                             isbn,
                             assunto,
+                            status,
                             path,
                             CONCAT(a.nome_autor, ' ', a.sobrenome_autor) as nome_autor,
                             e.nome_editora as nome_editora
@@ -169,7 +149,8 @@ if (isset($_GET['busca'])) {
                             ON l.id_autor = a.id_autor
                             INNER JOIN tbl_editora e
                             ON l.id_editora = e.id_editora
-                            ORDER BY l.id_livro ASC;"
+                            WHERE l.status = 'disponivel'
+                            ;"
                 );
                 while ($sql_query = $sql_code->fetch_assoc()) {
 
@@ -193,11 +174,12 @@ if (isset($_GET['busca'])) {
                                 <a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>" class="buttonClass">Editar</a>
 
                             <?php endif ?>
+                            <a href="./emprestimos_livros.php?id=<?php echo $sql_query['id_livro']; ?>" class="buttonClass">Reservar</a>
                         </div>
 
 
                     </div>
-                <?php
+                    <?php
                 }
             } else {
                 $sql_code = $mysqli->query(
@@ -207,6 +189,7 @@ if (isset($_GET['busca'])) {
                                 edicao,
                                 isbn,
                                 assunto,
+                                status,
                                 path,
                                 a.nome_autor as nome_autor,
                                 CONCAT(a.nome_autor, ' ', a.sobrenome_autor) as nome_autor,
@@ -216,25 +199,31 @@ if (isset($_GET['busca'])) {
                                 ON l.id_autor = a.id_autor
                                 INNER JOIN tbl_editora e
                                 ON l.id_editora = e.id_editora
-                                WHERE titulo LIKE '%$busca%' OR isbn LIKE '$$busca$' OR assunto LIKE '%$busca%' OR nome_autor LIKE '%$busca%'
-                                ORDER BY l.id_livro ASC;"
+                                WHERE titulo LIKE '%$busca%' 
+                                OR isbn LIKE '$$busca$' 
+                                OR assunto LIKE '%$busca%' 
+                                ;"
                 );
 
                 while ($sql_query = $sql_code->fetch_assoc()) {
+                    if ($sql_query['status'] == 'disponivel') {
 
-                ?>
-                    <ul style="list-style-type: none;">
-                        <li><img src="<?php echo $sql_query['path'] ?>" alt="" height="150px"></li>
-                        <li><?php echo $sql_query['titulo'] ?></li>
-                        <li><?php echo $sql_query['nome_autor'] ?></li>
-                        <li><?php echo $sql_query['nome_editora'] ?></li>
-                        <li><?php echo $sql_query['assunto'] ?></li>
-                        <li><?php echo $sql_query['isbn'] ?></li>
-                    </ul>
-                    <ul>
-                        <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
-                    </ul>
+
+                    ?>
+                        <ul style="list-style-type: none;">
+                            <li><img src="<?php echo $sql_query['path'] ?>" alt="" height="150px"></li>
+                            <li><?php echo $sql_query['titulo'] ?></li>
+                            <li><?php echo $sql_query['nome_autor'] ?></li>
+                            <li><?php echo $sql_query['nome_editora'] ?></li>
+                            <li><?php echo $sql_query['assunto'] ?></li>
+                            <li><?php echo $sql_query['isbn'] ?></li>
+                        </ul>
+                        <ul>
+                            <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
+                            <li><a href="./emprestimos_livros.php?id=<?php echo $sql_query['id_livro']; ?>" class="buttonClass">Reservar</a></li>
+                        </ul>
             <?php
+                    }
                 }
             }
             ?>

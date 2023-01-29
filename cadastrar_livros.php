@@ -4,9 +4,10 @@ include('conexao.php');
 
 if (!isset($_SESSION))
     session_start();
+    $perfil_acesso = $_SESSION['perfil_acesso'];
 
-if (!isset($_SESSION['usuario']))
-    die(header("Location: redirecionar_login.php"));
+if (!isset($_SESSION['usuario']) && !$perfil_acesso == 1)
+    die(header("Location: negar_acesso.php"));
 
 if (isset($_POST['enviar'])) {
 
@@ -85,8 +86,8 @@ if (isset($_POST['enviar'])) {
     if ($error) {
         echo "<p><b>$error</b></p>";
     } else {
-        $query = $mysqli->query("INSERT INTO tbl_livro (titulo, edicao, isbn, assunto, situacao, id_autor, id_editora, path) 
-        VALUES ('$titulo', '$edicao', '$isbn', '$assunto', 1, $id_autor, $id_editora, '$path')") or die($mysqli->error);
+        $query = $mysqli->query("INSERT INTO tbl_livro (titulo, edicao, isbn, assunto, situacao, id_autor, id_editora, status, path) 
+        VALUES ('$titulo', '$edicao', '$isbn', '$assunto', 1, $id_autor, $id_editora, 'disponivel', '$path')") or die($mysqli->error);
         if ($query) {
             echo "<p><b>Cadastro realizado com sucesso!</b></p>";
             unset($_POST);
@@ -110,28 +111,7 @@ if (isset($_POST['enviar'])) {
 <body>
     <!-- Header -->
     <header class="header">
-        <img class="logo" src="./assets/img/logo.png" alt="logolibmanager">
-        <nav class="container-menu">
-            <ul class="list-menu">
-                <a class="link" href="home.php">
-                    <li>Home</li>
-                </a>
-                <?php if ($perfil_acesso == 1) : ?>
-                    <a class="link" href="cadastrar_livros.php">
-                        <li>Cadastrar Livro</li>
-                    </a>
-                    <a class="link" href="cadastrar_funcionario.php">
-                        <li>Cadastrar Funcionário</li>
-                    </a>
-                <?php endif ?>
-                <a class="link" href="home.php">
-                    <li>Pesquisar Livros</li>
-                </a>
-                <a class="link" href="sistema_logout.php">
-                    <li>Sair</li>
-                </a>
-            </ul>
-        </nav>
+        <?php include('./themes/nav.php'); ?>
     </header>
     <main>
         <section>
