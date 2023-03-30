@@ -119,62 +119,89 @@ if ($sqlLivro->num_rows != 0) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/cadastroFuncionario.css">
+    <link rel="stylesheet" href="./assets/css/cadastrar_aluno.css">
+    <script src="https://kit.fontawesome.com/a91a789ba3.js" crossorigin="anonymous"></script>
     <title>Editar Livro - Lib Manager</title>
+    <style>
+        .container-update{
+            display:flex;
+        }
+        .container-formulario.teste{
+            width:100%;
+        }
+        .imagem{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container_input label{
+            font-size:18px;
+            margin:10px 0;
+            
+        }
+        .container_input.update{
+            margin:25px 0;
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-        <h1>Editar Livros</h1>
-        <nav>
-            <ul>
-                <li><a href="home.php">Voltar para página inicial</a></li>
-            </ul>
-        </nav>
+    <!-- Header -->
+    <header class="header">
+        <?php include('./themes/nav.php'); ?>
     </header>
-    <main>
+    <!-- Main -->
+    <main class="container">
         <section>
-            <form action="" method="post" enctype="multipart/form-data">
-                <p>
-                    <label for="">Título do livro: </label>
-                    <input type="text" name="titulo" value="<?php echo $livro['titulo']; ?>">
-                </p>
-                <p>
-                    <label for="">Nome do autor: </label>
-                    <input type="text" name="nome_autor" value="<?php echo $tbl_autor['nome_autor']; ?>">
-                </p>
-                <p>
-                    <label for="">Sobrenome do autor: </label>
-                    <input type="text" name="sobrenome_autor" value="<?php echo $tbl_autor['sobrenome_autor']; ?>">
-                </p>
-                <p>
-                    <label for="">Editora: </label>
-                    <input type="text" name="editora" value="<?php echo $tbl_editora['nome_editora']; ?>">
-                </p>
-                <p>
-                    <label for="">Edição: </label>
-                    <input type="text" name="edicao" value="<?php echo $livro['edicao']; ?>">
-                </p>
-                <p>
-                    <label for="">ISBN: </label>
-                    <input type="text" name="isbn" value="<?php echo $livro['isbn']; ?>">
-                </p>
-                <p>
-                    <label for="">Assunto: </label>
-                    <input type="text" name="assunto" value="<?php echo $livro['assunto']; ?>">
-                </p>
-                <p>
-                    <input type="hidden" name="capa_antiga" value="<?php echo $livro['path']; ?>">
-                    <?php if ($livro['path']) { ?>
-                </p>
-                <p>
-                    <label>Capa Atual:</label>
-                    <img height="80" src="<?php echo $livro['path']; ?>" alt="">
-                </p>
-                    <?php } ?>
-                <p>
-                <label>Alterar Capa:</label>
-                <input type="file" name="capa">
-                </p>
+            <form class="container-formulario teste" action="" method="post" enctype="multipart/form-data">
+               <div class="container-update">
+                    <div>
+                        <div class="container_input update">
+                                <label for="">Título do livro: </label>
+                                <input type="text" name="titulo" placeholder="Título do livro" value="<?php echo $livro['titulo']; ?>">
+                            </div>    
+                            <div class="container_input update">
+                                <label for="">Nome do autor: </label>
+                                <input type="text" name="nome_autor" placeholder="Nome do Autor" value="<?php echo $tbl_autor['nome_autor']; ?>">
+                            </div>    
+                            <div class="container_input update">
+                                <label for="">Sobrenome do autor: </label>
+                                <input type="text" name="nome_autor" placeholder="Sobrenome do autor" value="<?php echo $tbl_autor['sobrenome_autor']; ?>"">
+                            </div>    
+                            <div class="container_input update">
+                                <label for="">Editora: </label>
+                                <input type="text" name="editora" placeholder="Editora" value="<?php echo $tbl_editora['nome_editora']; ?>"">
+                            </div>   
+
+                            
+                            <div class="container_input update">
+                                <label for="">Edição: </label>
+                                <input type="text" name="edicao" placeholder="Edição" value="<?php echo $livro['edicao']; ?>"">
+                            </div>    
+                            <div class="container_input update">
+                                <label for="">ISBN: </label>
+                                <input type="text" name="isbn" placeholder="ISBN" value="<?php echo $livro['isbn']; ?>">
+                            </div>    
+                            <div class="container_input update">
+                                <label for="">Assunto: </label>
+                                <input type="text" name="assunto" placeholder="Assunto" value="<?php echo $livro['assunto']; ?>">
+                            </div>   
+                        </div> 
+                    <div class="container-image">
+                        <div class="imagem">
+                        <img height="300"  src="<?php echo $livro['path']; ?>" alt="">
+                            <input type="hidden" name="capa_antiga" value="<?php echo $livro['path']; ?>">
+                            <?php if ($livro['path']) { ?>
+                        </div>
+                            <?php } ?>
+                        <p>
+                        <label>Alterar Capa:</label>
+                        <input type="file" name="capa">
+                        </p>
+                    </div>
+               </div>
+               
                 <button type="submit" name="enviar">Alterar</button>
             </form>
         </section>
