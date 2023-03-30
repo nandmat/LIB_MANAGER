@@ -24,6 +24,7 @@ if (isset($_GET['busca'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/home.css">
+    <script src="https://kit.fontawesome.com/a91a789ba3.js" crossorigin="anonymous"></script>
     <title>Principal - Lib Manager</title>
     <style>
         .cards {
@@ -109,6 +110,31 @@ if (isset($_GET['busca'])) {
         .buttonClass:hover {
             background: linear-gradient(#c62d1f, #f24537);
         }
+        .container_input {
+            position: relative;
+            width: 100%;
+            height: 2.5rem;
+            margin: 10px;
+            margin-left:40px;
+        }
+        .container_input input {
+            width: 30%;
+            height: 2.5rem;
+            font-size: 0.9rem;
+            background: #ffffff;
+            border: 1px solid #c8c3c3;
+            border-radius: 4px;
+            outline: none;
+            padding: 0 0 0 1rem;
+        }
+        .lupa {
+            position: absolute;
+            color: #1165bb;
+            right: 72%;
+            top: 25%;
+            cursor: pointer;
+            font-size: 20px;
+        }
     </style>
 </head>
 
@@ -117,18 +143,13 @@ if (isset($_GET['busca'])) {
     <header class="header">
         <?php include('./themes/nav.php'); ?>
     </header>
-
-
-
-    <main>
-        <h4>Sistema de Busca</h4>
+    <main> 
         <form action="" method="get">
-            <label for="">Digite o nome do livro: </label>
-            <input type="text" name="busca">
-            <button type="submit">Buscar</button>
+            <div class="container_input">
+                <input id="txtCpf" type="text" name="busca" placeholder="Buscar Livro">
+                <button type="submit"><i class="fa-solid fa-magnifying-glass lupa"></i></button>
+            </div>
         </form>
-
-
         <section class="cards">
 
             <?php
@@ -153,7 +174,6 @@ if (isset($_GET['busca'])) {
                             ;"
                 );
                 while ($sql_query = $sql_code->fetch_assoc()) {
-
             ?>
                     <div class="card">
                         <div>
@@ -168,7 +188,6 @@ if (isset($_GET['busca'])) {
                             <p>Editora: <?php echo $sql_query['nome_editora'] ?></p>
                             <p>Gênero: <?php echo $sql_query['assunto'] ?></p>
                             <p>ISBN: <?php echo $sql_query['isbn'] ?></p>
-
                             <?php if ($perfil_acesso == 1) : ?>
 
                                 <a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>" class="buttonClass">Editar</a>
@@ -176,8 +195,6 @@ if (isset($_GET['busca'])) {
                             <?php endif ?>
                             <a href="./emprestimos_livros.php?id=<?php echo $sql_query['id_livro']; ?>" class="buttonClass">Reservar</a>
                         </div>
-
-
                     </div>
                     <?php
                 }
@@ -210,18 +227,28 @@ if (isset($_GET['busca'])) {
 
 
                     ?>
-                        <ul style="list-style-type: none;">
-                            <li><img src="<?php echo $sql_query['path'] ?>" alt="" height="150px"></li>
-                            <li><?php echo $sql_query['titulo'] ?></li>
-                            <li><?php echo $sql_query['nome_autor'] ?></li>
-                            <li><?php echo $sql_query['nome_editora'] ?></li>
-                            <li><?php echo $sql_query['assunto'] ?></li>
-                            <li><?php echo $sql_query['isbn'] ?></li>
-                        </ul>
-                        <ul>
-                            <li><a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>">Editar</a></li>
-                            <li><a href="./emprestimos_livros.php?id=<?php echo $sql_query['id_livro']; ?>" class="buttonClass">Reservar</a></li>
-                        </ul>
+                    <div class="card">
+                        <div>
+
+                            <h2 class="card-title"><?php echo $sql_query['titulo'] ?></h2>
+                        </div>
+                        <img src="<?php echo $sql_query['path'] ?>" alt="<?php echo $sql_query['titulo'] ?>" />
+
+                        <div class="card-desc">
+                            <p>Livro: <?php echo $sql_query['titulo'] ?></p>
+                            <p>Autor: <?php echo $sql_query['nome_autor'] ?></p>
+                            <p>Editora: <?php echo $sql_query['nome_editora'] ?></p>
+                            <p>Gênero: <?php echo $sql_query['assunto'] ?></p>
+                            <p>ISBN: <?php echo $sql_query['isbn'] ?></p>
+
+                            <?php if ($perfil_acesso == 1) : ?>
+
+                                <a href="./editar_livro.php?id=<?php echo $sql_query['id_livro']; ?>" class="buttonClass">Editar</a>
+
+                            <?php endif ?>
+                            <a href="./emprestimos_livros.php?id=<?php echo $sql_query['id_livro']; ?>" class="buttonClass">Reservar</a>
+                        </div>
+                    </div>
             <?php
                     }
                 }
